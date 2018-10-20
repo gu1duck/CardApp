@@ -49,7 +49,14 @@ class CardView: UIView {
         return view
     }()
 
-    private lazy var contentViewBottomAnchor = contentView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+    private(set) lazy var textfield: UITextField = {
+        let textField = UITextField()
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.borderStyle = .bezel
+        return textField
+    }()
+
+    private(set) lazy var contentViewBottomAnchor = contentView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,6 +64,7 @@ class CardView: UIView {
         addSubview(dimmingView)
         dimmingView.addSubview(cardView)
         cardView.addSubview(contentView)
+        contentView.addSubview(textfield)
 
         NSLayoutConstraint.activate([
             dimmingView.topAnchor.constraint(equalTo: topAnchor),
@@ -72,7 +80,11 @@ class CardView: UIView {
             contentView.heightAnchor.constraint(equalToConstant: contentViewHeight),
             contentView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor),
-            contentViewBottomAnchor
+            contentViewBottomAnchor,
+
+            textfield.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            textfield.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            textfield.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
             ])
     }
 
